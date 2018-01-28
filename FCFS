@@ -1,0 +1,115 @@
+//
+//  main.c
+//  P2
+//
+//  Created by Jason Chen on 1/23/18.
+//  Copyright © 2018 Jason Chen. All rights reserved.
+//
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+
+
+struct Job{
+    float arrival_time;
+    float service_time;
+    int priority;
+    char name;
+};
+
+typedef struct node{
+    struct Job data;
+    struct node* next;
+};
+
+struct Job* genjobs(int amount){
+    struct Job* jobs = malloc(sizeof(struct Job)*amount);
+    //srand(seed);
+    for (int i = 0; i < amount; i++){
+        float at = rand()%100;
+        float st = (rand() % 11);
+        if (st == 0) st += 0.1;
+        int p = rand() % 5;
+        if (p == 0) p += 1;
+        struct Job temp;
+        temp.arrival_time = at;
+        temp.service_time = st;
+        temp.priority = p;
+        temp.name = i+65;
+        jobs[i] = temp;
+    }
+    return jobs;
+}
+
+void FCFS(){
+    int throughput;
+    
+    for (int a = 0; a < 5; a++){
+    
+        int turnaround;
+        int waiting;
+        int response;
+    
+        struct node* head;
+        
+    static int quanta[100];
+    struct Job* jobs;
+    
+    int enough = 0;
+    int jobtotal = 10;
+    while (enough == 0){
+        jobs = genjobs(jobtotal);
+        //simulate CPU, check for empty quanta
+        for (int i = 0; i < jobtotal; i++){
+            for (int j = jobs[i].arrival_time; j < jobs[i].arrival_time+jobs[i].service_time; j++){
+                quanta[j]++;
+            }
+            //printf("%c\n", jobs[i].name);
+        }
+        int start = 0;
+        int gap = 0;
+        for (int k = 0; k < 100; k++){
+            if (quanta[k] > 0){
+                start = k;
+            }
+            if ((k >= start)&&(quanta[k] == 0)){
+                gap++;
+            }
+            if (gap == 2){
+                break;
+            }
+            printf("%d,", quanta[k]);
+            
+        }
+        if (gap == 2){
+            jobtotal += 1;
+        }else{
+            enough = 1;
+        }
+    }
+        int lowest = 0;
+        int working =
+        for(int i = 0; i < jobtotal; i++){
+            
+        }
+        
+    printf("%d", jobtotal);
+    }
+
+}
+
+int main()
+{
+    float seed = time(NULL);
+    srand(seed);
+    
+    FCFS();
+    //SJF
+    //SRT
+    //RR
+    //HPF NonPreemptive
+    //HPF Preemptive
+    return 0;
+}
